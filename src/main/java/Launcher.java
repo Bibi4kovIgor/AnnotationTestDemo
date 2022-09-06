@@ -26,9 +26,10 @@ public class Launcher {
                         System.out.printf("Return type of method %s is %s \n", method.getName(),
                                 method.getAnnotation(Test.class).returnType());
                     } else {
-                        System.err.printf("Test was not passed %s." +
-                                "Expected test %s\n" +
-                                " There was raised problem %s\n",method, excType.getName(), exc);
+                        System.err.printf("""
+                                Test was not passed %s.Expected test %s\s
+                                 There was raised problem %s
+                                """,method, excType.getName(), exc);
                     }
 
                 } catch (Exception e) {
