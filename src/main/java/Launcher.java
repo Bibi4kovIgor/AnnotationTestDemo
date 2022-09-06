@@ -8,19 +8,23 @@ public class Launcher {
         int testsCount = 0;
         int passedCount = 0;
 
-        Class<?> testClass = Class.forName("testsimple.Sample");
+        Class<?> testClass = Class.forName("testsimple.SampleImplementation");
 
         for (Method method : testClass.getMethods()) {
             if (method.isAnnotationPresent(Test.class)) {
                 testsCount++;
                 try {
                     method.invoke(new Object());
-                    System.out.printf("No available exception %s\n", method);
+                    System.out.printf("Return type %s, from method %s\n",
+                            method.getAnnotation(Test.class).returnType(),
+                            method);
                 } catch (InvocationTargetException e) {
                     Throwable exc = e.getCause();
                     Class<? extends Throwable> excType = method.getAnnotation(Test.class).value();
                     if(excType.isInstance(exc)) {
                         passedCount++;
+                        System.out.printf("Return type of method %s is %s \n", method.getName(),
+                                method.getAnnotation(Test.class).returnType());
                     } else {
                         System.err.printf("Test was not passed %s." +
                                 "Expected test %s\n" +
@@ -33,6 +37,5 @@ public class Launcher {
             }
         }
         System.out.printf("Tests at all: %d, Passed %d, Failed %d\n", testsCount, passedCount, testsCount - passedCount);
-
     }
 }
